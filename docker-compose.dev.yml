@@ -1,0 +1,38 @@
+services:
+  educloud-postgres:
+    container_name: educloud-postgres
+    image: postgres:latest
+    restart: always
+    hostname: educloud-postgres
+    ports:
+      - "5455:5432"
+    environment:
+      POSTGRES_USER: educloud
+      POSTGRES_PASSWORD: educloud
+      POSTGRES_DB: educloud
+    volumes:
+      - educloud_db:/var/lib/postgresql/data
+    networks:
+      - educloud
+
+  backend:
+    container_name: educloud-backend
+    build:
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3300:3300"
+    depends_on:
+      - educloud-postgres
+    networks:
+      - educloud
+    environment:
+      PORT: 3300
+      DATABASE_URL: "postgresql://educloud:educloud@educloud-postgres:5433/educloud?schema=public"
+
+networks:
+  educloud:
+
+volumes:
+  educloud_db:
+  educloud_sounds:
