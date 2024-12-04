@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Teacher } from 'src/module/teacher/teacher.entity';
 import { UserData } from 'src/module/user/user.data.entity';
@@ -9,6 +9,7 @@ import * as bcrypt from 'bcryptjs';
 import { RequestUser } from 'express';
 import { Roles } from '../../role/role.decorator';
 import { RoleEnum } from '../../role/role.enum';
+import { Role } from '../../role/role.entity';
 
 @Roles(RoleEnum.Admin)
 @Injectable()
@@ -22,6 +23,8 @@ export class AdminUserService {
         private userDataRepository: Repository<UserData>,
         @InjectRepository(Teacher)
         private teacherRepository: Repository<Teacher>,
+        @InjectRepository(Role)
+        private roleRepository: Repository<Role>,
     ) {}
 
     async getAllUsers(req: RequestUser): Promise<string> {
@@ -103,11 +106,16 @@ export class AdminUserService {
             username: userBody.username,
             hashedPwd: hashedPassword,
             displayName: userBody.displayName,
+        });
+
+        const role = this.roleRepository.create({
+            user: newUser,
             roles: userBody.roles,
         });
 
         newUser.teachers = [teacher];
         newUser.userData = [savedUserData];
+        newUser.role = role;
 
         const savedUser = await this.userRepository.save(newUser).catch((error) => {
             this.logger.error(`Error creating user: ${newUser} by token ${JSON.stringify(req.token)}`, error);

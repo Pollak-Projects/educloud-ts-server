@@ -1,5 +1,6 @@
-import { Controller, Get, Query, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, HttpCode, HttpStatus, Query, Req } from '@nestjs/common';
 import { ModuleService } from './module.service';
+import { RequestUser } from 'express';
 
 @Controller('')
 export class ModuleController {
@@ -7,20 +8,20 @@ export class ModuleController {
 
     @Get('get-all')
     @HttpCode(HttpStatus.OK)
-    async getAllModules(): Promise<string> {
-        return this.appService.getAllModules();
+    async getAllModules(@Req() request: RequestUser): Promise<string> {
+        return this.appService.getAllModules(request);
     }
 
     @Get('get-by-id')
     @HttpCode(HttpStatus.OK)
-    async getModuleById(@Query('id') id: string): Promise<string> {
-        return this.appService.getModuleById(id);
+    async getModuleById(@Query('id') id: string, @Req() request: RequestUser): Promise<string> {
+        return this.appService.getModuleById(id, request);
     }
 
     @Get('get-by-name')
     @HttpCode(HttpStatus.OK)
-    async getModuleByName(@Query('name') name: string): Promise<string> {
-        return this.appService.getModuleByName(name);
+    async getModuleByName(@Query('name') name: string, @Req() request: RequestUser): Promise<string> {
+        return this.appService.getModuleByName(name, request);
     }
 
     @Get('get-by-filter')
@@ -29,7 +30,8 @@ export class ModuleController {
         @Query('category') category: string,
         @Query('grade') grade: string,
         @Query('profession') profession: string,
+        @Req() request: RequestUser,
     ): Promise<string> {
-        return this.appService.getModuleByFilter(category, grade, profession);
+        return this.appService.getModuleByFilter(category, grade, profession, request);
     }
 }
