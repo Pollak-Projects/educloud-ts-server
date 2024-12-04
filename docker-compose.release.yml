@@ -1,7 +1,7 @@
 services:
   educloud-postgres:
     container_name: educloud-postgres
-    image: postgres:latest
+    image: postgres:16.6
     restart: always
     hostname: educloud-postgres
     environment:
