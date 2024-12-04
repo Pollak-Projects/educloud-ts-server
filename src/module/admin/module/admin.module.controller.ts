@@ -6,12 +6,14 @@ import {
     Put,
     Body,
     Query,
-    Req
+    Req, UseGuards,
 } from '@nestjs/common';
 import { ModuleDto } from './dto/module.dto';
 import { AdminModuleService } from './admin.module.service';
 import { RequestUser } from 'express';
+import { AuthGuard } from '../../auth/auth.guard';
 
+@UseGuards(AuthGuard)
 @Controller()
 export class AdminModuleController {
     constructor(private readonly appService: AdminModuleService) {}

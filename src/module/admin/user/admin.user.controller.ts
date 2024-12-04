@@ -6,24 +6,26 @@ import {
     Delete,
     Query,
     Body,
-    Req
+    Req, UseGuards,
 } from '@nestjs/common';
 import { UserDto } from './dto/user.dto';
 import { AdminUserService } from './admin.user.service';
 import { RequestUser } from 'express';
+import { AuthGuard } from '../../auth/auth.guard';
 
+@UseGuards(AuthGuard)
 @Controller()
 export class AdminUserController {
     constructor(private readonly appService: AdminUserService) {}
 
     @Get('get-all')
-    async getAllUsers(): Promise<string> {
-        return this.appService.getAllUsers();
+    async getAllUsers(@Req() req: RequestUser): Promise<string> {
+        return this.appService.getAllUsers(req);
     }
 
     @Get('get-by-id')
     async GetUserById(@Query('id') id: string, @Req() req: RequestUser): Promise<string> {
-        return this.appService.GetUserById(id, req);
+        return this.appService.getUserById(id, req);
     }
 
     @Post('create')

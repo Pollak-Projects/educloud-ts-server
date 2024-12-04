@@ -6,12 +6,14 @@ import {
     Delete,
     Query,
     Body,
-    Req
+    Req, UseGuards,
 } from '@nestjs/common';
 import { AssignmentDto } from './dto/assignment.dto';
 import { AdminAssignmentService } from './admin.assignment.service';
 import { RequestUser } from 'express';
+import { AuthGuard } from '../../auth/auth.guard';
 
+@UseGuards(AuthGuard)
 @Controller()
 export class AdminAssignmentController {
     constructor(private readonly appService: AdminAssignmentService) {}

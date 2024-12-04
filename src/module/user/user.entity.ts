@@ -1,14 +1,7 @@
-import {
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-    CreateDateColumn,
-    UpdateDateColumn,
-    ManyToMany,
-    JoinTable,
-} from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { UserData } from './user.data.entity';
 import { Teacher } from '../teacher/teacher.entity';
+import { Role } from '../role/role.entity';
 
 @Entity()
 export class User {
@@ -41,4 +34,7 @@ export class User {
     })
     @JoinTable()
     teachers: Teacher[];
+
+    @OneToOne(() => Role, (role) => role.user)
+    role: Role;
 }

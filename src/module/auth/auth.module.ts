@@ -5,10 +5,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../user/user.entity';
 import { JwtModule } from '@nestjs/jwt';
 import * as process from 'node:process';
+import { Teacher } from '../teacher/teacher.entity';
+import { Admin } from '../role/role.entity';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([User]),
+        TypeOrmModule.forFeature([User, Teacher, Admin]),
         JwtModule.register({
             global: true,
             secret: process.env.JWT_SECRET,

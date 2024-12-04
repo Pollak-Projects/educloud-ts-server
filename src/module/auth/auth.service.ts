@@ -7,6 +7,9 @@ import * as bcrypt from 'bcryptjs';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RegisterDto } from './dto/register.dto';
+import { Teacher } from '../teacher/teacher.entity';
+import { JwtPayload } from 'eduJwt';
+import { Role } from '../role/role.entity';
 
 @Injectable()
 export class AuthService {
@@ -16,6 +19,10 @@ export class AuthService {
         private jwtService: JwtService,
         @InjectRepository(User)
         private userRepository: Repository<User>,
+        @InjectRepository(Teacher)
+        private teacherRepository: Repository<Teacher>,
+        @InjectRepository(Role)
+        private roleRepository: Repository<Role>,
     ) {}
 
     async login(loginDto: LoginDto, response: Response): Promise<string> {
@@ -36,15 +43,28 @@ export class AuthService {
             throw new HttpException(`Invalid authentication data`, HttpStatus.UNAUTHORIZED);
         }
 
-        const payload = {
+        const teacher = await this.teacherRepository.findOneBy({ users: { id: user.id } }).catch((e) => {
+            this.logger.error(`Failed to get teacher for user ${JSON.stringify(user)}`, e);
+            throw new HttpException(`Failed to get teacher for user ${user.id}`, HttpStatus.NOT_FOUND);
+        });
+
+        const roles = await this.roleRepository.findOneBy({ user: { id: user.id } }).catch((e) => {
+            this.logger.error(`Failed to get roles for user ${JSON.stringify(user)}`, e);
+            throw new HttpException(`Failed to get roles for user ${user.id}`, HttpStatus.NOT_FOUND);
+        });
+
+        const payload: JwtPayload = {
             sub: user.id,
             username: user.username,
             hashedPassword: user.hashedPwd,
+            userId: user.id,
+            teacherId: teacher?.id || null,
+            roles: roles?.roles || null,
         };
 
         const jwt = await this.jwtService.signAsync(payload);
 
-        response.cookie('jwt', jwt, { httpOnly: true });
+        response.cookie('access_token', jwt, { httpOnly: true });
 
         this.logger.verbose(`User ${JSON.stringify(loginDto)} logged in and got JWT ${JSON.stringify(payload)}`);
         this.logger.log(`User ${loginDto.username} logged in`);
@@ -76,15 +96,18 @@ export class AuthService {
                 throw new HttpException(`Failed to register user ${registerDto.username}`, HttpStatus.INTERNAL_SERVER_ERROR);
             });
 
-        const payload = {
+        const payload: JwtPayload = {
             sub: newUser.id,
             username: newUser.username,
             hashedPassword: newUser.hashedPwd,
+            userId: newUser.id,
+            teacherId: null,
+            roles: null,
         };
 
         const jwt = await this.jwtService.signAsync(payload);
 
-        response.cookie('jwt', jwt, { httpOnly: true });
+        response.cookie('access_token', jwt, { httpOnly: true });
 
         this.logger.verbose(`User ${JSON.stringify(registerDto)} registered and got JWT ${JSON.stringify(payload)}`);
         this.logger.verbose(`User ${JSON.stringify(registerDto)} registered`);

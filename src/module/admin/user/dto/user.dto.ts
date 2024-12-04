@@ -1,4 +1,5 @@
-import { IsString, IsNotEmpty, IsDateString, isNotEmpty } from 'class-validator';
+import { IsArray, IsDateString, IsNotEmpty, IsString } from 'class-validator';
+import { RoleEnum } from '../../../role/role.enum';
 
 export class UserDto {
     @IsString()
@@ -20,4 +21,8 @@ export class UserDto {
     @IsDateString()
     @IsNotEmpty()
     birthDate: Date;
+
+    @IsString()
+    @IsArray()
+    roles: RoleEnum[];
 }
