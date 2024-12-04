@@ -2,10 +2,11 @@ import { Module } from '@nestjs/common';
 import { AdminAssignmentController } from './admin.assignment.controller';
 import { AdminAssignmentService } from './admin.assignment.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Assignment as AssignmentEntity } from '../../assignment/assignment.entity';
+import { Assignment } from '../../assignment/assignment.entity';
+import { Teacher } from '../../teacher/teacher.entity';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([AssignmentEntity])],
+    imports: [TypeOrmModule.forFeature([Assignment, Teacher])],
     controllers: [AdminAssignmentController],
     providers: [AdminAssignmentService],
 })

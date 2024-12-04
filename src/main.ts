@@ -18,6 +18,8 @@ async function bootstrap() {
 
     app.use(cookieParser());
 
+    app.setGlobalPrefix('api');
+
     await app.listen(process.env.PORT ?? 3300);
 
     const logger = new Logger('Main');
