@@ -25,7 +25,7 @@ export class AdminModuleService {
             throw new HttpException({ message: 'Teacher ID is missing in the token!' }, HttpStatus.BAD_REQUEST);
         }
 
-        where['teacherId'] = teacherId;  
+        where['teacherId'] = teacherId;
 
         return where;
     }
@@ -35,10 +35,7 @@ export class AdminModuleService {
         const where = await this.getTeacherModules(req, {});
         const modules = await this.moduleRepository.find({ where }).catch((error) => {
             this.logger.error('Error fetching modules', error);
-            throw new HttpException(
-                { message: 'Error fetching Modules!', error: error.message },
-                HttpStatus.INTERNAL_SERVER_ERROR,
-            );
+            throw new HttpException({ message: 'Error fetching Modules!', error: error.message }, HttpStatus.INTERNAL_SERVER_ERROR);
         });
 
         if (modules.length === 0) {
@@ -56,10 +53,7 @@ export class AdminModuleService {
         const where = await this.getTeacherModules(req, { id });
 
         const module = await this.moduleRepository.findOne({ where }).catch((error) => {
-            throw new HttpException(
-                { message: `Error fetching module with ID: ${id}!`, error: error.message },
-                HttpStatus.INTERNAL_SERVER_ERROR,
-            );
+            throw new HttpException({ message: `Error fetching module with ID: ${id}!`, error: error.message }, HttpStatus.INTERNAL_SERVER_ERROR);
         });
 
         if (!module) {
@@ -77,10 +71,7 @@ export class AdminModuleService {
         const where = await this.getTeacherModules(req, { name });
 
         const module = await this.moduleRepository.findOne({ where }).catch((error) => {
-            throw new HttpException(
-                { message: `Error fetching module with name: ${name}!`, error: error.message },
-                HttpStatus.INTERNAL_SERVER_ERROR,
-            );
+            throw new HttpException({ message: `Error fetching module with name: ${name}!`, error: error.message }, HttpStatus.INTERNAL_SERVER_ERROR);
         });
 
         if (!module) {
@@ -104,10 +95,7 @@ export class AdminModuleService {
         const filteredWhere = await this.getTeacherModules(req, where);
 
         const modules = await this.moduleRepository.find({ where: filteredWhere }).catch((error) => {
-            throw new HttpException(
-                { message: 'Error fetching modules with filters!', error: error.message },
-                HttpStatus.INTERNAL_SERVER_ERROR,
-            );
+            throw new HttpException({ message: 'Error fetching modules with filters!', error: error.message }, HttpStatus.INTERNAL_SERVER_ERROR);
         });
 
         if (modules.length === 0) {
@@ -149,7 +137,7 @@ export class AdminModuleService {
             throw new HttpException({ message: 'Missing required fields!' }, HttpStatus.BAD_REQUEST);
         }
 
-        const module = await this.moduleRepository.findOne({ where: { id  }}).catch((error) => {
+        const module = await this.moduleRepository.findOne({ where: { id } }).catch((error) => {
             throw new HttpException({ message: `Error finding module!`, error: error.message }, HttpStatus.INTERNAL_SERVER_ERROR);
         });
 

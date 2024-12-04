@@ -34,10 +34,7 @@ export class AdminAssignmentService {
         const where = await this.getTeacherAssignments(req, {});
         const assignments = await this.assignmentRepository.find({ where }).catch((error) => {
             this.logger.error('Error fetching assignments', error);
-            throw new HttpException(
-                { message: 'Error fetching Assignments!', error: error.message },
-                HttpStatus.INTERNAL_SERVER_ERROR,
-            );
+            throw new HttpException({ message: 'Error fetching Assignments!', error: error.message }, HttpStatus.INTERNAL_SERVER_ERROR);
         });
 
         if (assignments.length === 0) {
@@ -55,10 +52,7 @@ export class AdminAssignmentService {
         const where = await this.getTeacherAssignments(req, { id });
 
         const assignment = await this.assignmentRepository.findOne({ where }).catch((error) => {
-            throw new HttpException(
-                { message: `Error fetching assignment with ID: ${id}!`, error: error.message },
-                HttpStatus.INTERNAL_SERVER_ERROR,
-            );
+            throw new HttpException({ message: `Error fetching assignment with ID: ${id}!`, error: error.message }, HttpStatus.INTERNAL_SERVER_ERROR);
         });
 
         if (!assignment) {
@@ -76,10 +70,7 @@ export class AdminAssignmentService {
         const where = await this.getTeacherAssignments(req, { name });
 
         const assignment = await this.assignmentRepository.findOne({ where }).catch((error) => {
-            throw new HttpException(
-                { message: `Error fetching assignment with name: ${name}!`, error: error.message },
-                HttpStatus.INTERNAL_SERVER_ERROR,
-            );
+            throw new HttpException({ message: `Error fetching assignment with name: ${name}!`, error: error.message }, HttpStatus.INTERNAL_SERVER_ERROR);
         });
 
         if (!assignment) {
@@ -103,10 +94,7 @@ export class AdminAssignmentService {
         const filteredWhere = await this.getTeacherAssignments(req, where);
 
         const assignments = await this.assignmentRepository.find({ where: filteredWhere }).catch((error) => {
-            throw new HttpException(
-                { message: 'Error fetching assignments with filters!', error: error.message },
-                HttpStatus.INTERNAL_SERVER_ERROR,
-            );
+            throw new HttpException({ message: 'Error fetching assignments with filters!', error: error.message }, HttpStatus.INTERNAL_SERVER_ERROR);
         });
 
         if (assignments.length === 0) {

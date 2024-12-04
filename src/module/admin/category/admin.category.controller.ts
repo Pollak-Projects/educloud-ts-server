@@ -1,13 +1,4 @@
-import {
-    Controller,
-    Get,
-    Post,
-    Put,
-    Delete,
-    Query,
-    Body,
-    Req
-} from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Query, Body, Req } from '@nestjs/common';
 import { CategoryDto } from './dto/category.dto';
 import { AdminCategoryService } from './admin.category.service';
 import { RequestUser } from 'express';

@@ -1,13 +1,4 @@
-import {
-    Controller,
-    Get,
-    Post,
-    Delete,
-    Put,
-    Body,
-    Query,
-    Req, UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Post, Delete, Put, Body, Query, Req, UseGuards } from '@nestjs/common';
 import { ModuleDto } from './dto/module.dto';
 import { AdminModuleService } from './admin.module.service';
 import { RequestUser } from 'express';
@@ -38,7 +29,7 @@ export class AdminModuleController {
         @Query('category') category: string,
         @Query('grade') grade: string,
         @Query('profession') profession: string,
-        @Req() req: RequestUser
+        @Req() req: RequestUser,
     ): Promise<string> {
         return this.appService.getModuleByFilter(category, grade, profession, req);
     }
@@ -49,11 +40,7 @@ export class AdminModuleController {
     }
 
     @Put('update-by-id')
-    async updateModuleById(
-        @Query('id') id: string,
-        @Body() moduleBody: ModuleDto,
-        @Req() req: RequestUser
-    ): Promise<string> {
+    async updateModuleById(@Query('id') id: string, @Body() moduleBody: ModuleDto, @Req() req: RequestUser): Promise<string> {
         return this.appService.updateModuleById(id, moduleBody, req);
     }
 

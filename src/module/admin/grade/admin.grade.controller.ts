@@ -1,13 +1,4 @@
-import {
-    Controller,
-    Get,
-    Post,
-    Put,
-    Delete,
-    Query,
-    Body,
-    Req
-} from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Query, Body, Req } from '@nestjs/common';
 import { GradeDto } from './dto/grade.dto';
 import { AdminGradeService } from './admin.grade.service';
 import { RequestUser } from 'express';

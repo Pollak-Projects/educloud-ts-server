@@ -1,13 +1,4 @@
-import {
-    Controller,
-    Get,
-    Post,
-    Put,
-    Delete,
-    Query,
-    Body,
-    Req, UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Query, Body, Req, UseGuards } from '@nestjs/common';
 import { AssignmentDto } from './dto/assignment.dto';
 import { AdminAssignmentService } from './admin.assignment.service';
 import { RequestUser } from 'express';
@@ -38,14 +29,9 @@ export class AdminAssignmentController {
         @Query('category') category: string,
         @Query('grade') grade: string,
         @Query('profession') profession: string,
-        @Req() req: RequestUser
+        @Req() req: RequestUser,
     ): Promise<string> {
-        return this.appService.getAssignmentByFilter(
-            category,
-            grade,
-            profession,
-            req
-        );
+        return this.appService.getAssignmentByFilter(category, grade, profession, req);
     }
 
     @Post('create')
@@ -54,11 +40,7 @@ export class AdminAssignmentController {
     }
 
     @Put('update-by-id')
-    async updateAssignmentById(
-        @Query('id') id: string,
-        @Body() AssignmentBody: AssignmentDto,
-        @Req() req: RequestUser
-    ): Promise<string> {
+    async updateAssignmentById(@Query('id') id: string, @Body() AssignmentBody: AssignmentDto, @Req() req: RequestUser): Promise<string> {
         return this.appService.updateAssignmentById(id, AssignmentBody, req);
     }
 

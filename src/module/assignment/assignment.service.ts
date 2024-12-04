@@ -84,7 +84,7 @@ export class AssignmentService {
             throw new HttpException({ message: 'Missing required fields!' }, HttpStatus.BAD_REQUEST);
         }
 
-        const where: any = { };
+        const where: any = {};
 
         if (category !== 'none') where.category = category;
         if (grade !== 'none') where.grade = grade;

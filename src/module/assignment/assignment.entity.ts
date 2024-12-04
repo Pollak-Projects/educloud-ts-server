@@ -1,11 +1,4 @@
-import {
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-    CreateDateColumn,
-    UpdateDateColumn,
-    ManyToMany,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany } from 'typeorm';
 import { Category } from '../category/category.entity';
 import { Profession } from '../profession/profession.entity';
 import { Teacher } from '../teacher/teacher.entity';
