@@ -18,7 +18,7 @@ services:
     image: ghcr.io/pollak-projects/educloud-ts-server/app:latest
     restart: always
     ports:
-      - "3300:3300"
+      - "7670:3300"
     depends_on:
       - educloud-postgres
     networks:
