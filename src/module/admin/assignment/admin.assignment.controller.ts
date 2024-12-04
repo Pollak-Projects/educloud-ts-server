@@ -12,7 +12,7 @@ import { AssignmentDto } from './dto/assignment.dto';
 import { AdminAssignmentService } from './admin.assignment.service';
 import { RequestUser } from 'express';
 
-@Controller('assignment')
+@Controller()
 export class AdminAssignmentController {
     constructor(private readonly appService: AdminAssignmentService) {}
 

@@ -12,7 +12,7 @@ import { ModuleDto } from './dto/module.dto';
 import { AdminModuleService } from './admin.module.service';
 import { RequestUser } from 'express';
 
-@Controller('module')
+@Controller()
 export class AdminModuleController {
     constructor(private readonly appService: AdminModuleService) {}
 
