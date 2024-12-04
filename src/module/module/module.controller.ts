@@ -1,7 +1,7 @@
 import { Controller, Get, Query, HttpCode, HttpStatus } from '@nestjs/common';
 import { ModuleService } from './module.service';
 
-@Controller('module')
+@Controller('')
 export class ModuleController {
     constructor(private readonly appService: ModuleService) {}
 

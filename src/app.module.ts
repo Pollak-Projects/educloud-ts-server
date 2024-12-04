@@ -12,6 +12,7 @@ import { AdminModuleModule } from './module/admin/module/admin.module.module';
 import { AdminGradeModule } from './module/admin/grade/admin.grade.module';
 import { AdminCategoryModule } from './module/admin/category/admin.category.module';
 import { AdminProfessionModule } from './module/admin/profession/admin.profession.module';
+import { AssignmentModule } from './module/assignment/assignment.module';
 
 @Module({
     imports: [
@@ -19,6 +20,7 @@ import { AdminProfessionModule } from './module/admin/profession/admin.professio
         AdminModule,
         AuthModule,
         ModuleModule,
+        AssignmentModule,
         RouterModule.register([
             {
                 path: 'admin',
@@ -49,6 +51,14 @@ import { AdminProfessionModule } from './module/admin/profession/admin.professio
                         module: AdminProfessionModule,
                     },
                 ],
+            },
+            {
+                path: 'module',
+                module: ModuleModule
+            },
+            {
+                path: 'assignment',
+                module: AssignmentModule
             },
         ]),
     ],
