@@ -11,4 +11,5 @@ export class AuthController {
   login(@Body() userBody: LoginDto): string {
     return this.appService.login(userBody);
   }
+
 }

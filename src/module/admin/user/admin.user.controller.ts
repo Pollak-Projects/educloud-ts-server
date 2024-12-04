@@ -2,9 +2,9 @@ import { Controller, Get, Post, Put, Delete, Query, Body } from '@nestjs/common'
 import { UserService } from './user.service';
 import { UserDto } from './dto/user.dto';
 
-@Controller('api/admin/user')
-export class UserController {
-  constructor(private readonly appService: UserService) {}
+@Controller('user')
+export class AdminUserController {
+  constructor(private readonly appService: AdminUserService) {}
 
   @Get('get-all')
   getAllUsers(): string {

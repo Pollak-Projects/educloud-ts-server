@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { AssignmentDto } from './dto/assignment.dto';
 
 @Injectable()
-export class AssignmentService {
+export class AdminAssignmentService {
   getAllAssignments(): string {
     return 'Hello World!';
   }

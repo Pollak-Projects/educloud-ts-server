@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UserDto } from './dto/user.dto';
 
 @Injectable()
-export class UserService {
+export class AdminUserService {
   getAllUsers(): string {
     return 'Hello World!';
   }

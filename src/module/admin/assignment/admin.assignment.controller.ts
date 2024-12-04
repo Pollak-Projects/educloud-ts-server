@@ -2,9 +2,9 @@ import { Controller, Get, Post, Put, Delete, Query, Body } from '@nestjs/common'
 import { AssignmentService } from './assignment.service';
 import { AssignmentDto } from './dto/assignment.dto';
 
-@Controller('api/admin/assignment')
-export class AssignmentController {
-  constructor(private readonly appService: AssignmentService) {}
+@Controller('assignment')
+export class AdminAssignmentController {
+  constructor(private readonly appService: AdminAssignmentService) {}
 
   @Get('get-all')
   getAllAssignments(): string {

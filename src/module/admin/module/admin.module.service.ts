@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ModuleDto } from './dto/module.dto';
 
 @Injectable()
-export class ModuleService {
+export class AdminModuleService {
   getAllModules(): string {
     return 'Hello World!';
   }
