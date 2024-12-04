@@ -4,7 +4,6 @@ import {
     Column,
     CreateDateColumn,
     UpdateDateColumn,
-    OneToMany,
     ManyToMany,
     JoinTable,
 } from 'typeorm';
@@ -34,8 +33,12 @@ export class User {
     @ManyToMany(() => UserData, (userData) => userData.users, {
         onDelete: 'CASCADE',
     })
+    @JoinTable()
     userData: UserData[];
 
-    @ManyToMany(() => Teacher, (teacher) => teacher.users)
+    @ManyToMany(() => Teacher, (teacher) => teacher.users, {
+        onDelete: 'CASCADE',
+    })
+    @JoinTable()
     teachers: Teacher[];
 }

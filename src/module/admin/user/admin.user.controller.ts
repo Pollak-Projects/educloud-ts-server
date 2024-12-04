@@ -22,7 +22,7 @@ export class AdminUserController {
     }
 
     @Get('get-by-id')
-    async GetUserById(@Query('id') id: number, @Req() req: RequestUser): Promise<string> {
+    async GetUserById(@Query('id') id: string, @Req() req: RequestUser): Promise<string> {
         return this.appService.GetUserById(id, req);
     }
 
@@ -32,12 +32,12 @@ export class AdminUserController {
     }
 
     @Put('update-by-id')
-    async updateUserById(@Query('id') id: number, @Body() userBody: UserDto, @Req() req: RequestUser): Promise<string> {
+    async updateUserById(@Query('id') id: string, @Body() userBody: UserDto, @Req() req: RequestUser): Promise<string> {
         return this.appService.updateUserById(id, userBody, req);
     }
 
     @Delete('delete-by-id')
-    async deleteUserById(@Query('id') id: number, @Req() req: RequestUser): Promise<string> {
+    async deleteUserById(@Query('id') id: string, @Req() req: RequestUser): Promise<string> {
         return this.appService.deleteUserById(id, req);
     }
 }

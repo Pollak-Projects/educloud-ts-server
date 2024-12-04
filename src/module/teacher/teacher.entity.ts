@@ -26,6 +26,5 @@ export class Teacher {
     assignments: Assignment[];
 
     @ManyToMany(() => User, (user) => user.teachers)
-    @JoinTable()
     users: User[];
 }
