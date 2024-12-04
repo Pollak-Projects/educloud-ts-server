@@ -1,6 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Subject } from './subject.entity';
-import { Assignment } from './assignment.entity';
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    OneToMany,
+    ManyToMany,
+} from 'typeorm';
+import { Module } from '../module/module.entity';
+import { Assignment } from '../assignment/assignment.entity';
 
 @Entity()
 export class Category {
@@ -10,9 +16,9 @@ export class Category {
     @Column({ unique: true })
     categoryName: string;
 
-    @OneToMany(() => Subject, subject => subject.category)
-    subjects: Subject[];
+    @ManyToMany(() => Module, (module) => module.categories)
+    modules: Module[];
 
-    @OneToMany(() => Assignment, assignment => assignment.category)
+    @ManyToMany(() => Assignment, (assignment) => assignment.categories)
     assignments: Assignment[];
 }

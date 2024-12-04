@@ -1,8 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany } from 'typeorm';
-import { TeacherSubject } from './teacher-subject.entity';
-import { TeacherAssignment } from './teacher-assignment.entity';
-import { TeacherUser } from './teacher-user.entity';
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    ManyToMany,
+    JoinTable,
+} from 'typeorm';
+import { Module } from '../module/module.entity';
 import { User } from '../user/user.entity';
+import { Assignment } from '../assignment/assignment.entity';
 
 @Entity()
 export class Teacher {
@@ -12,12 +17,14 @@ export class Teacher {
     @Column()
     name: string;
 
-    @OneToMany(() => TeacherSubject, teacherSubject => teacherSubject.teacher)
-    teacherSubject: TeacherSubject[];
+    @ManyToMany(() => Module, (module) => module.teachers)
+    @JoinTable()
+    modules: Module[];
 
-    @OneToMany(() => TeacherAssignment, teacherAssignment => teacherAssignment.teacher)
-    teacherAssignment: TeacherAssignment[];
+    @ManyToMany(() => Assignment, (assignment) => assignment.teachers)
+    assignments: Assignment[];
 
-    @ManyToMany(() => User, user => user.teachers)
+    @ManyToMany(() => User, (user) => user.teachers)
+    @JoinTable()
     users: User[];
 }

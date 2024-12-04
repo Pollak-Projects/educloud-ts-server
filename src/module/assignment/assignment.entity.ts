@@ -1,7 +1,18 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
-import { Category } from './category.entity';
-import { Profession } from './profession.entity';
-import { TeacherAssignment } from './teacher-assignment.entity';
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    CreateDateColumn,
+    UpdateDateColumn,
+    ManyToOne,
+    OneToMany,
+    ManyToMany,
+    JoinTable,
+} from 'typeorm';
+import { Category } from '../category/category.entity';
+import { Profession } from '../profession/profession.entity';
+import { Teacher } from '../teacher/teacher.entity';
+import { Grade } from '../grade/grade.entity';
 
 @Entity()
 export class Assignment {
@@ -32,12 +43,20 @@ export class Assignment {
     @Column()
     professionId: string;
 
-    @ManyToOne(() => Category, category => category.assignments, { onDelete: 'CASCADE' })
-    category: Category;
+    @ManyToMany(() => Category, (category) => category.assignments, {
+        onDelete: 'CASCADE',
+    })
+    categories: Category[];
 
-    @ManyToOne(() => Profession, profession => profession.assignments, { onDelete: 'CASCADE' })
-    profession: Profession;
+    @ManyToMany(() => Profession, (profession) => profession.assignments, {
+        onDelete: 'CASCADE',
+    })
+    professions: Profession[];
 
-    @OneToMany(() => TeacherAssignment, teacherAssignment => teacherAssignment.assignment)
-    teacherAssignment: TeacherAssignment[];
+    @ManyToMany(() => Teacher, (teacher) => teacher.assignments)
+    @JoinTable()
+    teachers: Teacher[];
+
+    @ManyToMany(() => Grade, (grade) => grade.assignments)
+    grades: Grade[];
 }

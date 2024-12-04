@@ -1,6 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Subject } from './subject.entity';
-import { Assignment } from './assignment.entity';
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    JoinTable,
+    ManyToMany,
+} from 'typeorm';
+import { Module } from '../module/module.entity';
+import { Assignment } from '../assignment/assignment.entity';
 
 @Entity()
 export class Grade {
@@ -10,9 +16,11 @@ export class Grade {
     @Column({ unique: true })
     gradeName: string;
 
-    @OneToMany(() => Subject, subject => subject.grade)
-    subjects: Subject[];
+    @ManyToMany(() => Module, (module) => module.grades)
+    @JoinTable()
+    modules: Module[];
 
-    @OneToMany(() => Assignment, assignment => assignment.grade)
+    @ManyToMany(() => Assignment, (assignment) => assignment.grades)
+    @JoinTable()
     assignments: Assignment[];
 }

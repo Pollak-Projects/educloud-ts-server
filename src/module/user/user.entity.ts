@@ -5,7 +5,8 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     OneToMany,
-    ManyToMany, JoinTable,
+    ManyToMany,
+    JoinTable,
 } from 'typeorm';
 import { UserData } from './user.data.entity';
 import { Teacher } from '../teacher/teacher.entity';
@@ -30,10 +31,11 @@ export class User {
     @UpdateDateColumn()
     updatedAt: Date;
 
-    @OneToMany(() => UserData, userData => userData.user)
+    @ManyToMany(() => UserData, (userData) => userData.users, {
+        onDelete: 'CASCADE',
+    })
     userData: UserData[];
 
-    @ManyToMany(() => Teacher, teacher => teacher.users)
-    @JoinTable()
+    @ManyToMany(() => Teacher, (teacher) => teacher.users)
     teachers: Teacher[];
 }

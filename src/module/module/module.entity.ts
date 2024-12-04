@@ -1,10 +1,21 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
-import { Category } from './category.entity';
-import { Profession } from './profession.entity';
-import { TeacherSubject } from './teacher-subject.entity';
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    CreateDateColumn,
+    UpdateDateColumn,
+    ManyToOne,
+    OneToMany,
+    ManyToMany,
+    JoinTable,
+} from 'typeorm';
+import { Category } from '../category/category.entity';
+import { Profession } from '../profession/profession.entity';
+import { Teacher } from '../teacher/teacher.entity';
+import { Grade } from '../grade/grade.entity';
 
 @Entity()
-export class Subject {
+export class Module {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
@@ -32,12 +43,21 @@ export class Subject {
     @Column()
     professionId: string;
 
-    @ManyToOne(() => Category, category => category.subjects, { onDelete: 'CASCADE' })
-    category: Category;
+    @ManyToMany(() => Category, (category) => category.modules, {
+        onDelete: 'CASCADE',
+    })
+    @JoinTable()
+    categories: Category[];
 
-    @ManyToOne(() => Profession, profession => profession.subjects, { onDelete: 'CASCADE' })
-    profession: Profession;
+    @ManyToMany(() => Profession, (profession) => profession.modules, {
+        onDelete: 'CASCADE',
+    })
+    @JoinTable()
+    professions: Profession[];
 
-    @OneToMany(() => TeacherSubject, teacherSubject => teacherSubject.subject)
-    teacherSubject: TeacherSubject[];
+    @ManyToMany(() => Teacher, (teacher) => teacher.modules)
+    teachers: Teacher[];
+
+    @ManyToMany(() => Grade, (grade) => grade.modules)
+    grades: Grade[];
 }

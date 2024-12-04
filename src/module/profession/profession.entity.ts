@@ -1,6 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Subject } from './subject.entity';
-import { Assignment } from './assignment.entity';
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    OneToMany,
+    ManyToMany,
+    JoinTable,
+} from 'typeorm';
+import { Module } from '../module/module.entity';
+import { Assignment } from '../assignment/assignment.entity';
 
 @Entity()
 export class Profession {
@@ -10,9 +17,11 @@ export class Profession {
     @Column({ unique: true })
     professionName: string;
 
-    @OneToMany(() => Subject, subject => subject.profession)
-    subjects: Subject[];
+    @ManyToMany(() => Module, (module) => module.professions)
+    @JoinTable()
+    modules: Module[];
 
-    @OneToMany(() => Assignment, assignment => assignment.profession)
+    @ManyToMany(() => Assignment, (assignment) => assignment.professions)
+    @JoinTable()
     assignments: Assignment[];
 }
