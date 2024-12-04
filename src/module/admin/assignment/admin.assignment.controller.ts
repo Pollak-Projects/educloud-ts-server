@@ -15,26 +15,26 @@ export class AdminAssignmentController {
     constructor(private readonly appService: AdminAssignmentService) {}
 
     @Get('get-all')
-    getAllAssignments(): string {
+    async getAllAssignments(): Promise<string> {
         return this.appService.getAllAssignments();
     }
 
     @Get('get-by-id')
-    getAssignmentById(@Query('id') id: number): string {
+    async getAssignmentById(@Query('id') id: string): Promise<string> {
         return this.appService.getAssignmentById(id);
     }
 
     @Get('get-by-name')
-    getAssignmentByName(@Query('name') name: string): string {
+    async getAssignmentByName(@Query('name') name: string): Promise<string> {
         return this.appService.getAssignmentByName(name);
     }
 
     @Get('get-by-filter')
-    getAssignmentByFilter(
+    async getAssignmentByFilter(
         @Query('category') category: string,
         @Query('grade') grade: string,
         @Query('profession') profession: string,
-    ): string {
+    ): Promise<string> {
         return this.appService.getAssignmentByFilter(
             category,
             grade,
@@ -43,20 +43,20 @@ export class AdminAssignmentController {
     }
 
     @Post('create')
-    createAssignment(@Body() AssignmentBody: AssignmentDto): string {
+    async createAssignment(@Body() AssignmentBody: AssignmentDto): Promise<string> {
         return this.appService.createAssignment(AssignmentBody);
     }
 
     @Put('update-by-id')
-    updateAssignmentById(
-        @Query('id') id: number,
+    async updateAssignmentById(
+        @Query('id') id: string,
         @Body() AssignmentBody: AssignmentDto,
-    ): string {
+    ): Promise<string> {
         return this.appService.updateAssignmentById(id, AssignmentBody);
     }
 
     @Delete('delete-by-id')
-    deleteAssignmentById(@Query('id') id: number): string {
+    async deleteAssignmentById(@Query('id') id: string): Promise<string> {
         return this.appService.deleteAssignmentById(id);
     }
 }

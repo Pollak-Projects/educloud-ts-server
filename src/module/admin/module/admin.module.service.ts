@@ -150,8 +150,6 @@ export class AdminModuleService {
     }
 
     async createModule(moduleBody: ModuleDto): Promise<string> {
-        // const decodedToken = this.jwtService.decode(token) as any;
-        // const teacherId = decodedToken.teacherId; 
         const teacherId = "asd"
 
         if (!teacherId) {

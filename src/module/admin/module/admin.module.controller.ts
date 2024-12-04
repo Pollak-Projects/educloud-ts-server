@@ -19,11 +19,6 @@ export class AdminModuleController {
         return this.appService.getAllModules();
     }
 
-    @Get('get-by-teacher-id')
-    async getAllModulesByTeacherId(@Query('id') id: string): Promise<string> {
-        return this.appService.getAllModulesByTeacherId(id);
-    }
-
     @Get('get-by-id')
     async getModuleById(@Query('id') id: string): Promise<string> {
         return this.appService.getModuleById(id);
