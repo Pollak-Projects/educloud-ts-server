@@ -7,7 +7,6 @@ import {
     ManyToOne,
     OneToMany,
     ManyToMany,
-    JoinTable,
 } from 'typeorm';
 import { Category } from '../category/category.entity';
 import { Profession } from '../profession/profession.entity';
@@ -26,9 +25,6 @@ export class Assignment {
     content?: string;
 
     @Column({ nullable: true })
-    grade?: string;
-
-    @Column({ nullable: true })
     description?: string;
 
     @CreateDateColumn()
@@ -36,12 +32,6 @@ export class Assignment {
 
     @UpdateDateColumn()
     updatedAt: Date;
-
-    @Column()
-    categoryId: string;
-
-    @Column()
-    professionId: string;
 
     @ManyToMany(() => Category, (category) => category.assignments, {
         onDelete: 'CASCADE',
@@ -54,9 +44,10 @@ export class Assignment {
     professions: Profession[];
 
     @ManyToMany(() => Teacher, (teacher) => teacher.assignments)
-    @JoinTable()
     teachers: Teacher[];
 
-    @ManyToMany(() => Grade, (grade) => grade.assignments)
+    @ManyToMany(() => Grade, (grade) => grade.assignments, {
+        onDelete: 'CASCADE',
+    })
     grades: Grade[];
 }

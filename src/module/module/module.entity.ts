@@ -7,7 +7,6 @@ import {
     ManyToOne,
     OneToMany,
     ManyToMany,
-    JoinTable,
 } from 'typeorm';
 import { Category } from '../category/category.entity';
 import { Profession } from '../profession/profession.entity';
@@ -37,27 +36,21 @@ export class Module {
     @UpdateDateColumn()
     updatedAt: Date;
 
-    @Column()
-    categoryId: string;
-
-    @Column()
-    professionId: string;
-
     @ManyToMany(() => Category, (category) => category.modules, {
         onDelete: 'CASCADE',
     })
-    @JoinTable()
     categories: Category[];
 
     @ManyToMany(() => Profession, (profession) => profession.modules, {
         onDelete: 'CASCADE',
     })
-    @JoinTable()
     professions: Profession[];
 
     @ManyToMany(() => Teacher, (teacher) => teacher.modules)
     teachers: Teacher[];
 
-    @ManyToMany(() => Grade, (grade) => grade.modules)
+    @ManyToMany(() => Grade, (grade) => grade.modules, {
+        onDelete: 'CASCADE',
+    })
     grades: Grade[];
 }

@@ -22,6 +22,7 @@ export class Teacher {
     modules: Module[];
 
     @ManyToMany(() => Assignment, (assignment) => assignment.teachers)
+    @JoinTable()
     assignments: Assignment[];
 
     @ManyToMany(() => User, (user) => user.teachers)

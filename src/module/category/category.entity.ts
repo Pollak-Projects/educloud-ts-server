@@ -4,6 +4,7 @@ import {
     Column,
     OneToMany,
     ManyToMany,
+    JoinTable,
 } from 'typeorm';
 import { Module } from '../module/module.entity';
 import { Assignment } from '../assignment/assignment.entity';
@@ -17,8 +18,10 @@ export class Category {
     categoryName: string;
 
     @ManyToMany(() => Module, (module) => module.categories)
+    @JoinTable()
     modules: Module[];
 
     @ManyToMany(() => Assignment, (assignment) => assignment.categories)
+    @JoinTable()
     assignments: Assignment[];
 }
