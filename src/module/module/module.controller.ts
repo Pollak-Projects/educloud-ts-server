@@ -1,31 +1,35 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, HttpCode, HttpStatus } from '@nestjs/common';
 import { ModuleService } from './module.service';
 
-@Controller('api/module')
+@Controller('module')
 export class ModuleController {
     constructor(private readonly appService: ModuleService) {}
 
     @Get('get-all')
-    getAllModules(): string {
+    @HttpCode(HttpStatus.OK)
+    async getAllModules(): Promise<string> {
         return this.appService.getAllModules();
     }
 
     @Get('get-by-id')
-    getModuleById(@Query('id') id: number): string {
+    @HttpCode(HttpStatus.OK)
+    async getModuleById(@Query('id') id: string): Promise<string> {
         return this.appService.getModuleById(id);
     }
 
     @Get('get-by-name')
-    getModuleByName(@Query('name') name: string): string {
+    @HttpCode(HttpStatus.OK)
+    async getModuleByName(@Query('name') name: string): Promise<string> {
         return this.appService.getModuleByName(name);
     }
 
     @Get('get-by-filter')
-    getModuleByFilter(
+    @HttpCode(HttpStatus.OK)
+    async getModuleByFilter(
         @Query('category') category: string,
         @Query('grade') grade: string,
         @Query('profession') profession: string,
-    ): string {
+    ): Promise<string> {
         return this.appService.getModuleByFilter(category, grade, profession);
     }
 }

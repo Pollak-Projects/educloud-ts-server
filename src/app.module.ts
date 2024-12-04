@@ -5,6 +5,7 @@ import { ConfigLocalModule } from './config/config.local.module';
 import { RouterModule } from '@nestjs/core';
 import { AdminModule } from './module/admin/admin.module';
 import { AuthModule } from './module/auth/auth.module';
+import { ModuleModule } from './module/module/module.module';
 
 @Module({
     imports: [
@@ -20,6 +21,10 @@ import { AuthModule } from './module/auth/auth.module';
                     {
                         path: '',
                         module: AuthModule,
+                    },
+                    {
+                        path: '',
+                        module: ModuleModule,
                     },
                 ],
             },
