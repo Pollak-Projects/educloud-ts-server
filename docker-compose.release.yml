@@ -24,13 +24,13 @@ services:
     networks:
       - educloud
     environment:
-      PORT=3300
-      DB_HOST=educloud-postgres
-      DB_PORT=5432
-      DB_USER=educloud
-      DB_PASSWORD=educloud
-      DB_NAME=educloud
-      JWT_SECRET=secret
+      PORT: 3300
+      DB_HOST: educloud-postgres
+      DB_PORT: 5432
+      DB_USER: educloud
+      DB_PASSWORD: educloud
+      DB_NAME: educloud
+      JWT_SECRET: secret
 
 networks:
   educloud:
