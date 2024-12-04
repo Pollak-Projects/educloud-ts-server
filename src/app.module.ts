@@ -4,6 +4,7 @@ import { AppService } from './module/app/app.service';
 import { ConfigLocalModule } from './config/config.local.module';
 import { RouterModule } from '@nestjs/core';
 import { AdminModule } from './module/admin/admin.module';
+import { AuthModule } from './module/auth/auth.module';
 
 @Module({
     imports: [
@@ -15,6 +16,10 @@ import { AdminModule } from './module/admin/admin.module';
                     {
                         path: 'admin',
                         module: AdminModule,
+                    },
+                    {
+                        path: '',
+                        module: AuthModule,
                     },
                 ],
             },
