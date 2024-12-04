@@ -17,8 +17,8 @@ export class AdminGradeController {
     constructor(private readonly appService: AdminGradeService) {}
 
     @Get('get-all')
-    async getAllGrades(): Promise<string> {
-        return this.appService.getAllGrades();
+    async getAllGrades(@Req() req: RequestUser): Promise<string> {
+        return this.appService.getAllGrades(req);
     }
 
     @Post('create')

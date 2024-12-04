@@ -17,8 +17,8 @@ export class AdminProfessionController {
     constructor(private readonly appService: AdminProfessionService) {}
 
     @Get('get-all')
-    async getAllProfessions(): Promise<string> {
-        return this.appService.getAllProfessions();
+    async getAllProfessions(@Req() req: RequestUser): Promise<string> {
+        return this.appService.getAllProfessions(req);
     }
 
     @Post('create')

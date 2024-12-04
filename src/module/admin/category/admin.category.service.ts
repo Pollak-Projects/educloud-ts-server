@@ -14,7 +14,7 @@ export class AdminCategoryService {
         private categoryRepository: Repository<Category>
     ) {}
 
-    async getAllCategories(): Promise<string> {
+    async getAllCategories(req: RequestUser): Promise<string> {
         const categories = await this.categoryRepository.find().catch((error) => {
             throw new HttpException(
                 { message: 'Error fetching categories!', error: error.message },

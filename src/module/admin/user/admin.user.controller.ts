@@ -12,8 +12,11 @@ import { UserDto } from './dto/user.dto';
 import { AdminUserService } from './admin.user.service';
 import { RequestUser } from 'express';
 import { AuthGuard } from '../../auth/auth.guard';
+import { RoleEnum } from 'src/module/role/role.enum';
+import { Roles } from 'src/module/role/role.decorator';
 
 @UseGuards(AuthGuard)
+@Roles(RoleEnum.Admin)
 @Controller()
 export class AdminUserController {
     constructor(private readonly appService: AdminUserService) {}

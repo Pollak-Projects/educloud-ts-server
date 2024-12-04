@@ -17,8 +17,8 @@ export class AdminCategoryController {
     constructor(private readonly appService: AdminCategoryService) {}
 
     @Get('get-all')
-    async getAllCategories(): Promise<string> {
-        return this.appService.getAllCategories();
+    async getAllCategories(@Req() req: RequestUser): Promise<string> {
+        return this.appService.getAllCategories(req);
     }
 
     @Post('create')

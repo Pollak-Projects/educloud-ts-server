@@ -14,7 +14,7 @@ export class AdminProfessionService {
         private professionRepository: Repository<Profession>
     ) {}
 
-    async getAllProfessions(): Promise<string> {
+    async getAllProfessions(req: RequestUser): Promise<string> {
         const professions = await this.professionRepository.find().catch((error) => {
             throw new HttpException(
                 { message: 'Error fetching professions!', error: error.message },

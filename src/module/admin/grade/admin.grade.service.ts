@@ -14,7 +14,7 @@ export class AdminGradeService {
         private gradeRepository: Repository<Grade>
     ) {}
 
-    async getAllGrades(): Promise<string> {
+    async getAllGrades(req: RequestUser): Promise<string> {
         const grades = await this.gradeRepository.find().catch((error) => {
             throw new HttpException(
                 { message: 'Error fetching grades!', error: error.message },

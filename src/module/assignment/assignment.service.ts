@@ -2,7 +2,9 @@ import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Assignment } from './assignment.entity';
+Teacher
 import { RequestUser } from 'express';
+import { Teacher } from '../teacher/teacher.entity';
 
 @Injectable()
 export class AssignmentService {
@@ -11,6 +13,8 @@ export class AssignmentService {
     constructor(
         @InjectRepository(Assignment)
         private assignmentRepository: Repository<Assignment>,
+        @InjectRepository(Teacher)
+        private teacherRepository: Repository<Teacher>
     ) {}
 
     async getAllAssignments(req: RequestUser): Promise<string> {
@@ -84,7 +88,7 @@ export class AssignmentService {
             throw new HttpException({ message: 'Missing required fields!' }, HttpStatus.BAD_REQUEST);
         }
 
-        const where: any = {};
+        const where: any = { };
 
         if (category !== 'none') where.category = category;
         if (grade !== 'none') where.grade = grade;
