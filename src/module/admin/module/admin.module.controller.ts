@@ -15,44 +15,49 @@ export class AdminModuleController {
     constructor(private readonly appService: AdminModuleService) {}
 
     @Get('get-all')
-    getAllModules(): string {
+    async getAllModules(): Promise<string> {
         return this.appService.getAllModules();
     }
 
+    @Get('get-by-teacher-id')
+    async getAllModulesByTeacherId(@Query('id') id: string): Promise<string> {
+        return this.appService.getAllModulesByTeacherId(id);
+    }
+
     @Get('get-by-id')
-    getModuleById(@Query('id') id: number): string {
+    async getModuleById(@Query('id') id: string): Promise<string> {
         return this.appService.getModuleById(id);
     }
 
     @Get('get-by-name')
-    getModuleByName(@Query('name') name: string): string {
+    async getModuleByName(@Query('name') name: string): Promise<string> {
         return this.appService.getModuleByName(name);
     }
 
     @Get('get-by-filter')
-    getModuleByFilter(
+    async getModuleByFilter(
         @Query('category') category: string,
         @Query('grade') grade: string,
         @Query('profession') profession: string,
-    ): string {
+    ): Promise<string> {
         return this.appService.getModuleByFilter(category, grade, profession);
     }
 
     @Post('create')
-    createModule(@Body() moduleBody: ModuleDto): string {
+    async createModule(@Body() moduleBody: ModuleDto): Promise<string> {
         return this.appService.createModule(moduleBody);
     }
 
     @Put('update-by-id')
-    updateModuleById(
-        @Query('id') id: number,
+    async updateModuleById(
+        @Query('id') id: string,
         @Body() moduleBody: ModuleDto,
-    ): string {
+    ): Promise<string> {
         return this.appService.updateModuleById(id, moduleBody);
     }
 
     @Delete('delete-by-id')
-    deleteModuleById(@Query('id') id: number): string {
+    async deleteModuleById(@Query('id') id: string): Promise<string> {
         return this.appService.deleteModuleById(id);
     }
 }

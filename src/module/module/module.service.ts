@@ -2,7 +2,6 @@ import { Injectable, Logger, HttpException, HttpStatus } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Module } from './module.entity';
-import { json } from 'stream/consumers';
 
 @Injectable()
 export class ModuleService {
