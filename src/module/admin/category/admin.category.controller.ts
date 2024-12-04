@@ -11,7 +11,13 @@ import {
 import { CategoryDto } from './dto/category.dto';
 import { AdminCategoryService } from './admin.category.service';
 import { RequestUser } from 'express';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/module/auth/auth.guard';
+import { RoleEnum } from 'src/module/role/role.enum';
+import { Roles } from 'src/module/role/role.decorator';
 
+@UseGuards(AuthGuard)
+@Roles(RoleEnum.Admin)
 @Controller()
 export class AdminCategoryController {
     constructor(private readonly appService: AdminCategoryService) {}

@@ -6,12 +6,18 @@ import {
     Delete,
     Query,
     Body,
-    Req
+    Req,
+    UseGuards
 } from '@nestjs/common';
 import { ProfessionDto } from './dto/profession.dto';
 import { AdminProfessionService } from './admin.profession.service';
 import { RequestUser } from 'express';
+import { AuthGuard } from 'src/module/auth/auth.guard';
+import { RoleEnum } from 'src/module/role/role.enum';
+import { Roles } from 'src/module/role/role.decorator';
 
+@UseGuards(AuthGuard)
+@Roles(RoleEnum.Admin)
 @Controller()
 export class AdminProfessionController {
     constructor(private readonly appService: AdminProfessionService) {}

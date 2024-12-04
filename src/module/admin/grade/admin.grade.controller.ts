@@ -11,7 +11,13 @@ import {
 import { GradeDto } from './dto/grade.dto';
 import { AdminGradeService } from './admin.grade.service';
 import { RequestUser } from 'express';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/module/auth/auth.guard';
+import { RoleEnum } from 'src/module/role/role.enum';
+import { Roles } from 'src/module/role/role.decorator';
 
+@UseGuards(AuthGuard)
+@Roles(RoleEnum.Admin)
 @Controller()
 export class AdminGradeController {
     constructor(private readonly appService: AdminGradeService) {}

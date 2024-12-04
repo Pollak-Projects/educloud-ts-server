@@ -22,7 +22,6 @@ export class UserDto {
     @IsNotEmpty()
     birthDate: Date;
 
-    @IsString()
     @IsArray()
     roles: RoleEnum[];
 }
