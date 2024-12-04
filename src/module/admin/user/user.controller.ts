@@ -1,5 +1,6 @@
-import { Controller, Get, Post, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Query, Body } from '@nestjs/common';
 import { UserService } from './user.service';
+import { UserDto } from './dto/user.dto';
 
 @Controller('api/admin/user')
 export class UserController {
@@ -11,22 +12,22 @@ export class UserController {
   }
 
   @Get('get-by-id')
-  GetUserById(): string {
-    return this.appService.GetUserById();
+  GetUserById(@Query('id') id: number): string {
+    return this.appService.GetUserById(id);
   }
 
   @Post('create')
-  createUser(): string {
-    return this.appService.createUser();
+  createUser(@Body() userBody: UserDto): string {
+    return this.appService.createUser(userBody);
   }
 
   @Put('update-by-id')
-  updateUserById(): string {
-    return this.appService.updateUserById();
+  updateUserById(@Query('id') id: number, @Body() userBody: UserDto): string {
+    return this.appService.updateUserById(id, userBody);
   }
 
   @Delete('delete-by-id')
-  deleteUserById(): string {
-    return this.appService.deleteUserById();
+  deleteUserById(@Query('id') id: number): string {
+    return this.appService.deleteUserById(id);
   }
 }
