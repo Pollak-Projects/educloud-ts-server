@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './module/app/app.controller';
 import { AppService } from './module/app/app.service';
-import { ConfigModule } from './config/config.module';
+import { ConfigLocalModule } from './config/config.local.module';
 import { RouterModule } from '@nestjs/core';
 import { AdminModule } from './module/admin/admin.module';
 
 @Module({
     imports: [
-        ConfigModule,
+        ConfigLocalModule,
         RouterModule.register([
             {
                 path: 'api',
