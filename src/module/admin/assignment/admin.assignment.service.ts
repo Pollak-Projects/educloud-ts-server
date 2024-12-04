@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Assignment } from '../../assignment/assignment.entity';
 import { Teacher } from 'src/module/teacher/teacher.entity';
 import { AssignmentDto } from './dto/assignment.dto';
+import { RequestUser } from 'express';
 
 @Injectable()
 export class AdminAssignmentService {
@@ -16,7 +17,7 @@ export class AdminAssignmentService {
         private teacherRepository: Repository<Teacher>,
     ) {}
 
-    async getAllAssignments(): Promise<string> {
+    async getAllAssignments(req: RequestUser): Promise<string> {
         const Assignments = await this.assignmentRepository.find().catch((error) => {
             throw new HttpException(
                 { message: 'Error fetching Assignments!', error: error.message },
@@ -34,7 +35,7 @@ export class AdminAssignmentService {
         return JSON.stringify(Assignments);
     }
 
-    async getAssignmentById(id: string): Promise<string> {
+    async getAssignmentById(id: string, req: RequestUser): Promise<string> {
         if(!id) {
             throw new HttpException(
                 { message: 'Missing required fields!' },
@@ -59,7 +60,7 @@ export class AdminAssignmentService {
         return JSON.stringify(Assignment);
     }
 
-    async getAssignmentByName(name: string): Promise<string> {
+    async getAssignmentByName(name: string, req: RequestUser): Promise<string> {
         if(!name) {
             throw new HttpException(
                 { message: 'Missing required fields!' },
@@ -88,6 +89,7 @@ export class AdminAssignmentService {
         category: string,
         grade: string,
         profession: string,
+        req: RequestUser
     ): Promise<string> {
         if(!category || !grade || !profession) {
             throw new HttpException(
@@ -119,7 +121,7 @@ export class AdminAssignmentService {
         return JSON.stringify(Assignments);
     }
 
-    async createAssignment(AssignmentBody: AssignmentDto): Promise<string> {
+    async createAssignment(AssignmentBody: AssignmentDto, req: RequestUser): Promise<string> {
         const teacherId = "asd"
 
         if (!teacherId) {
@@ -152,7 +154,7 @@ export class AdminAssignmentService {
         return JSON.stringify(savedModule);
     }
 
-    async updateAssignmentById(id: string, AssignmentBody: AssignmentDto): Promise<string> {
+    async updateAssignmentById(id: string, AssignmentBody: AssignmentDto, req: RequestUser): Promise<string> {
         if(!id) {
             throw new HttpException(
                 { message: 'Missing required fields!' },
@@ -186,7 +188,7 @@ export class AdminAssignmentService {
         return JSON.stringify(updatedModule);
     }
 
-    async deleteAssignmentById(id: string): Promise<string> {
+    async deleteAssignmentById(id: string, req: RequestUser): Promise<string> {
         if(!id) {
             throw new HttpException(
                 { message: 'Missing required fields!' },

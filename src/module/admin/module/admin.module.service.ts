@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Module } from '../../module/module.entity';
 import { Teacher } from 'src/module/teacher/teacher.entity';
 import { ModuleDto } from './dto/module.dto';
+import { RequestUser } from 'express';
 
 @Injectable()
 export class AdminModuleService {
@@ -16,7 +17,7 @@ export class AdminModuleService {
         private teacherRepository: Repository<Teacher>,
     ) {}
 
-    async getAllModules(): Promise<string> {
+    async getAllModules(req: RequestUser): Promise<string> {
         const Modules = await this.moduleRepository.find().catch((error) => {
             throw new HttpException(
                 { message: 'Error fetching Modules!', error: error.message },
@@ -34,7 +35,7 @@ export class AdminModuleService {
         return JSON.stringify(Modules);
     }
 
-    async getAllModulesByTeacherId(id: string): Promise<string> {
+    async getAllModulesByTeacherId(id: string, req: RequestUser): Promise<string> {
         if (!id) {
             throw new HttpException(
                 { message: 'Missing teacher ID!' },
@@ -64,7 +65,7 @@ export class AdminModuleService {
         return JSON.stringify(modules);
     }
 
-    async getModuleById(id: string): Promise<string> {
+    async getModuleById(id: string, req: RequestUser): Promise<string> {
         if(!id) {
             throw new HttpException(
                 { message: 'Missing required fields!' },
@@ -89,7 +90,7 @@ export class AdminModuleService {
         return JSON.stringify(module);
     }
 
-    async getModuleByName(name: string): Promise<string> {
+    async getModuleByName(name: string, req: RequestUser): Promise<string> {
         if(!name) {
             throw new HttpException(
                 { message: 'Missing required fields!' },
@@ -118,6 +119,7 @@ export class AdminModuleService {
         category: string,
         grade: string,
         profession: string,
+        req: RequestUser
     ): Promise<string> {
         if(!category || !grade || !profession) {
             throw new HttpException(
@@ -149,7 +151,7 @@ export class AdminModuleService {
         return JSON.stringify(modules);
     }
 
-    async createModule(moduleBody: ModuleDto): Promise<string> {
+    async createModule(moduleBody: ModuleDto, req: RequestUser): Promise<string> {
         const teacherId = "asd"
 
         if (!teacherId) {
@@ -182,7 +184,7 @@ export class AdminModuleService {
         return JSON.stringify(savedModule);
     }
 
-    async updateModuleById(id: string, moduleBody: ModuleDto): Promise<string> {
+    async updateModuleById(id: string, moduleBody: ModuleDto, req: RequestUser): Promise<string> {
         if(!id) {
             throw new HttpException(
                 { message: 'Missing required fields!' },
@@ -216,7 +218,7 @@ export class AdminModuleService {
         return JSON.stringify(updatedModule);
     }
 
-    async deleteModuleById(id: string): Promise<string> {
+    async deleteModuleById(id: string, req: RequestUser): Promise<string> {
         if(!id) {
             throw new HttpException(
                 { message: 'Missing required fields!' },
