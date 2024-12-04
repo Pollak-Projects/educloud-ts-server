@@ -16,9 +16,6 @@ export class Module {
     content?: string;
 
     @Column({ nullable: true })
-    grade?: string;
-
-    @Column({ nullable: true })
     description?: string;
 
     @CreateDateColumn()

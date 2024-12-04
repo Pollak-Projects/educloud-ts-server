@@ -1,9 +1,6 @@
 import { IsOptional, IsString, IsUUID, IsDate, IsArray } from 'class-validator';
 
 export class ModuleDto {
-    @IsUUID()
-    id: string;
-
     @IsString()
     name: string;
 
@@ -13,17 +10,10 @@ export class ModuleDto {
 
     @IsOptional()
     @IsString()
-    grade?: string;
-
-    @IsOptional()
-    @IsString()
     description?: string;
 
-    @IsDate()
-    createdAt: Date;
-
-    @IsDate()
-    updatedAt: Date;
+    @IsUUID()
+    gradeId: string;
 
     @IsUUID()
     categoryId: string;

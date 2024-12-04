@@ -14,7 +14,8 @@ import { Role } from '../role/role.entity';
         JwtModule.register({
             global: true,
             secret: process.env.JWT_SECRET,
-            signOptions: { expiresIn: '60s' },
+            // NOTE: This is a development expiry, it should be changed in production, but it won't be.
+            signOptions: { expiresIn: '14d' },
         }),
     ],
     controllers: [AuthController],

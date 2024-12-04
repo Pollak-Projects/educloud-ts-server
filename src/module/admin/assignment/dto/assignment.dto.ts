@@ -1,4 +1,4 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class AssignmentDto {
     @IsString()
@@ -10,15 +10,14 @@ export class AssignmentDto {
 
     @IsOptional()
     @IsString()
-    grade?: string;
-
-    @IsOptional()
-    @IsString()
     description?: string;
 
-    @IsString()
+    @IsUUID()
+    gradeId: string;
+
+    @IsUUID()
     categoryId: string;
 
-    @IsString()
+    @IsUUID()
     professionId: string;
 }

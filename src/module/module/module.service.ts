@@ -14,129 +14,153 @@ export class ModuleService {
     ) {}
 
     async getAllModules(req: RequestUser): Promise<string> {
-        this.logger.log('Fetching all modules');
-        this.logger.verbose(`Fetching all modules by token ${JSON.stringify(req.token)}`);
-        const Modules = await this.moduleRepository.find().catch((error) => {
-            this.logger.error(`Error fetching modules by token ${JSON.stringify(req.token)}`, error);
-            throw new HttpException(
-                {
-                    message: 'Error fetching Modules!',
-                    error: error.message,
+        this.logger.log('Fetching all Modules');
+        this.logger.verbose(`Fetching all modules by token: ${JSON.stringify(req.token)}`);
+
+        const modules = await this.moduleRepository
+            .find({
+                relations: {
+                    categories: true,
+                    professions: true,
+                    grades: true,
                 },
-                HttpStatus.INTERNAL_SERVER_ERROR,
-            );
-        });
-        if (Modules.length === 0) {
-            this.logger.error(`No modules: ${JSON.stringify(Modules)} found by token ${JSON.stringify(req.token)}`);
-            throw new HttpException({ message: 'No modules found!' }, HttpStatus.NO_CONTENT);
+            })
+            .catch((error) => {
+                this.logger.error(`Error fetching Modules by token ${JSON.stringify(req.token)}`, error);
+                throw new HttpException(
+                    {
+                        message: 'Error fetching Modules!',
+                        error: error.message,
+                    },
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                );
+            });
+        if (modules.length === 0) {
+            this.logger.verbose(`No Modules found by token ${JSON.stringify(req.token)}`);
+            throw new HttpException({ message: 'No Modules found!' }, HttpStatus.NO_CONTENT);
         }
 
-        this.logger.verbose(`Fetched all modules by token ${JSON.stringify(req.token)}`);
+        this.logger.verbose(`Fetched all Modules by token`);
 
-        return JSON.stringify(Modules);
+        return JSON.stringify(modules);
     }
 
     async getModuleById(id: string, req: RequestUser): Promise<string> {
-        this.logger.log(`Fetching module with ID: ${id}`);
-        this.logger.verbose(`Fetching module with ID: ${id} by token ${JSON.stringify(req.token)}`);
+        this.logger.log(`Fetching Module with ID: ${id}`);
+        this.logger.verbose(`Fetching Module with ID: ${id} by token ${JSON.stringify(req.token)}`);
         if (!id) {
-            this.logger.error(`Missing required fields id: ${id} by token ${JSON.stringify(req.token)}`);
+            this.logger.verbose(`Missing required fields ${id} by token ${JSON.stringify(req.token)}`);
             throw new HttpException({ message: 'Missing required fields!' }, HttpStatus.BAD_REQUEST);
         }
 
-        const module = await this.moduleRepository.findOneBy({ id }).catch((error) => {
-            this.logger.error(`Error fetching module with ID: ${id} by token ${JSON.stringify(req.token)}`, error);
-            throw new HttpException(
-                {
-                    message: `Error fetching module with ID: ${id}!`,
-                    error: error.message,
+        const module = await this.moduleRepository
+            .findOne({
+                where: { id },
+                relations: {
+                    categories: true,
+                    professions: true,
+                    grades: true,
                 },
-                HttpStatus.INTERNAL_SERVER_ERROR,
-            );
-        });
+            })
+            .catch((error) => {
+                this.logger.error(`Error fetching Module with ID: ${id} by token ${JSON.stringify(req.token)}`, error);
+                throw new HttpException(
+                    {
+                        message: `Error fetching Module with ID: ${id}!`,
+                        error: error.message,
+                    },
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                );
+            });
 
         if (!module) {
-            this.logger.error(`Module: ${module} with ID: ${id} not found by token ${JSON.stringify(req.token)}`);
+            this.logger.verbose(`Module with ID: ${id} not found by token ${JSON.stringify(req.token)}`);
             throw new HttpException({ message: `Module with ID: ${id} not found!` }, HttpStatus.NOT_FOUND);
         }
 
-        this.logger.verbose(`Fetched module with ID: ${id} by token ${JSON.stringify(req.token)}`);
+        this.logger.verbose(`Fetched Module with ID: ${id} by token ${JSON.stringify(req.token)}`);
 
         return JSON.stringify(module);
     }
 
     async getModuleByName(name: string, req: RequestUser): Promise<string> {
-        this.logger.log(`Fetching module with name: ${name}`);
-        this.logger.verbose(`Fetching module with name: ${name} by token ${JSON.stringify(req.token)}`);
-
+        this.logger.log(`Fetching Module with name: ${name}`);
+        this.logger.verbose(`Fetching Module with name: ${name} by token ${JSON.stringify(req.token)}`);
         if (!name) {
-            this.logger.error(`Missing required fields name: ${name} by token ${JSON.stringify(req.token)}`);
+            this.logger.verbose(`Missing required fields ${name} by token ${JSON.stringify(req.token)}`);
             throw new HttpException({ message: 'Missing required fields!' }, HttpStatus.BAD_REQUEST);
         }
 
-        const module = await this.moduleRepository.findOneBy({ name }).catch((error) => {
-            this.logger.error(`Error fetching module with name: ${name} by token ${JSON.stringify(req.token)}`, error);
-            throw new HttpException(
-                {
-                    message: `Error fetching module with name: ${name}!`,
-                    error: error.message,
+        const module = await this.moduleRepository
+            .findOne({
+                where: { name },
+                relations: {
+                    categories: true,
+                    professions: true,
+                    grades: true,
                 },
-                HttpStatus.INTERNAL_SERVER_ERROR,
-            );
-        });
+            })
+            .catch((error) => {
+                this.logger.error(`Error fetching Module with name: ${name} by token ${JSON.stringify(req.token)}`, error);
+                throw new HttpException(
+                    {
+                        message: `Error fetching Module with name: ${name}!`,
+                        error: error.message,
+                    },
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                );
+            });
 
         if (!module) {
-            this.logger.error(`Module: ${module} with name: ${name} not found by token ${JSON.stringify(req.token)}`);
+            this.logger.verbose(`Module: ${module} with name: ${name} not found by token ${JSON.stringify(req.token)}`);
             throw new HttpException({ message: `Module with name: ${name} not found!` }, HttpStatus.NOT_FOUND);
         }
-
-        this.logger.verbose(`Fetched module with name: ${name} by token ${JSON.stringify(req.token)}`);
 
         return JSON.stringify(module);
     }
 
     async getModuleByFilter(category: string, grade: string, profession: string, req: RequestUser): Promise<string> {
-        this.logger.log(`Fetching modules with filters category: ${category}, grade: ${grade}, profession: ${profession}`);
-        this.logger.verbose(
-            `Fetching modules with filters category: ${category}, grade: ${grade}, profession: ${profession} by token ${JSON.stringify(req.token)}`,
-        );
+        this.logger.log(`Fetching Modules with filters: ${category}, ${grade}, ${profession}`);
+        this.logger.verbose(`Fetching Modules with filters: ${category}, ${grade}, ${profession} by token ${JSON.stringify(req.token)}`);
 
         if (!category || !grade || !profession) {
-            this.logger.error(
-                `Missing required fields category: ${category}, grade: ${grade}, profession: ${profession} by token ${JSON.stringify(req.token)}`,
-            );
+            this.logger.verbose(`Missing required fields ${category}, ${grade}, ${profession} by token ${JSON.stringify(req.token)}`);
             throw new HttpException({ message: 'Missing required fields!' }, HttpStatus.BAD_REQUEST);
         }
 
-        const where: any = {};
+        const parameters: any = {
+            categories: { id: category !== 'none' ? category : undefined },
+            grades: { id: grade !== 'none' ? grade : undefined },
+            professions: { id: profession !== 'none' ? profession : undefined },
+        };
 
-        if (category !== 'none') where.category = category;
-        if (grade !== 'none') where.grade = grade;
-        if (profession !== 'none') where.profession = profession;
-
-        const modules = await this.moduleRepository.find({ where }).catch((error) => {
-            this.logger.error(
-                `Error fetching modules with filters category: ${category}, grade: ${grade}, profession: ${profession} by token ${JSON.stringify(req.token)}`,
-                error,
-            );
-            throw new HttpException(
-                {
-                    message: 'Error fetching modules with filters!',
-                    error: error.message,
+        const Modules = await this.moduleRepository
+            .find({
+                where: { ...parameters },
+                relations: {
+                    categories: true,
+                    professions: true,
+                    grades: true,
                 },
-                HttpStatus.INTERNAL_SERVER_ERROR,
-            );
-        });
+            })
+            .catch((error) => {
+                this.logger.error(`Error fetching Modules with filters: ${category}, ${grade}, ${profession} by token ${JSON.stringify(req.token)}`, error);
+                throw new HttpException(
+                    {
+                        message: 'Error fetching Modules with filters!',
+                        error: error.message,
+                    },
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                );
+            });
 
-        if (modules.length === 0) {
-            this.logger.error(`No modules found matching the filters: ${JSON.stringify(where)} by token ${JSON.stringify(req.token)}`);
-            throw new HttpException({ message: 'No modules found matching the filters!' }, HttpStatus.NO_CONTENT);
+        if (Modules.length === 0) {
+            this.logger.verbose(`No Modules found matching the filters ${category}, ${grade}, ${profession} by token ${JSON.stringify(req.token)}`);
+            throw new HttpException({ message: 'No Modules found matching the filters!' }, HttpStatus.NO_CONTENT);
         }
 
-        this.logger.verbose(
-            `Fetched modules with filters category: ${category}, grade: ${grade}, profession: ${profession} by token ${JSON.stringify(req.token)}`,
-        );
+        this.logger.verbose(`Fetched Modules with filters: ${category}, ${grade}, ${profession} by token ${JSON.stringify(req.token)}`);
 
-        return JSON.stringify(modules);
+        return JSON.stringify(Modules);
     }
 }

@@ -17,10 +17,24 @@ export class AssignmentService {
         this.logger.log('Fetching all Assignments');
         this.logger.verbose(`Fetching all assignments by token: ${JSON.stringify(req.token)}`);
 
-        const assignments = await this.assignmentRepository.find().catch((error) => {
-            this.logger.error(`Error fetching Assignments by token ${JSON.stringify(req.token)}`, error);
-            throw new HttpException({ message: 'Error fetching Assignments!', error: error.message }, HttpStatus.INTERNAL_SERVER_ERROR);
-        });
+        const assignments = await this.assignmentRepository
+            .find({
+                relations: {
+                    categories: true,
+                    professions: true,
+                    grades: true,
+                },
+            })
+            .catch((error) => {
+                this.logger.error(`Error fetching Assignments by token ${JSON.stringify(req.token)}`, error);
+                throw new HttpException(
+                    {
+                        message: 'Error fetching Assignments!',
+                        error: error.message,
+                    },
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                );
+            });
         if (assignments.length === 0) {
             this.logger.verbose(`No Assignments found by token ${JSON.stringify(req.token)}`);
             throw new HttpException({ message: 'No Assignments found!' }, HttpStatus.NO_CONTENT);
@@ -39,10 +53,25 @@ export class AssignmentService {
             throw new HttpException({ message: 'Missing required fields!' }, HttpStatus.BAD_REQUEST);
         }
 
-        const assignment = await this.assignmentRepository.findOneBy({ id }).catch((error) => {
-            this.logger.error(`Error fetching Assignment with ID: ${id} by token ${JSON.stringify(req.token)}`, error);
-            throw new HttpException({ message: `Error fetching Assignment with ID: ${id}!`, error: error.message }, HttpStatus.INTERNAL_SERVER_ERROR);
-        });
+        const assignment = await this.assignmentRepository
+            .findOne({
+                where: { id },
+                relations: {
+                    categories: true,
+                    professions: true,
+                    grades: true,
+                },
+            })
+            .catch((error) => {
+                this.logger.error(`Error fetching Assignment with ID: ${id} by token ${JSON.stringify(req.token)}`, error);
+                throw new HttpException(
+                    {
+                        message: `Error fetching Assignment with ID: ${id}!`,
+                        error: error.message,
+                    },
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                );
+            });
 
         if (!assignment) {
             this.logger.verbose(`Assignment with ID: ${id} not found by token ${JSON.stringify(req.token)}`);
@@ -62,10 +91,25 @@ export class AssignmentService {
             throw new HttpException({ message: 'Missing required fields!' }, HttpStatus.BAD_REQUEST);
         }
 
-        const assignment = await this.assignmentRepository.findOneBy({ name }).catch((error) => {
-            this.logger.error(`Error fetching Assignment with name: ${name} by token ${JSON.stringify(req.token)}`, error);
-            throw new HttpException({ message: `Error fetching Assignment with name: ${name}!`, error: error.message }, HttpStatus.INTERNAL_SERVER_ERROR);
-        });
+        const assignment = await this.assignmentRepository
+            .findOne({
+                where: { name },
+                relations: {
+                    categories: true,
+                    professions: true,
+                    grades: true,
+                },
+            })
+            .catch((error) => {
+                this.logger.error(`Error fetching Assignment with name: ${name} by token ${JSON.stringify(req.token)}`, error);
+                throw new HttpException(
+                    {
+                        message: `Error fetching Assignment with name: ${name}!`,
+                        error: error.message,
+                    },
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                );
+            });
 
         if (!assignment) {
             this.logger.verbose(`Assignment: ${assignment} with name: ${name} not found by token ${JSON.stringify(req.token)}`);
@@ -84,16 +128,31 @@ export class AssignmentService {
             throw new HttpException({ message: 'Missing required fields!' }, HttpStatus.BAD_REQUEST);
         }
 
-        const where: any = {};
+        const parameters: any = {
+            categories: { id: category !== 'none' ? category : undefined },
+            grades: { id: grade !== 'none' ? grade : undefined },
+            professions: { id: profession !== 'none' ? profession : undefined },
+        };
 
-        if (category !== 'none') where.category = category;
-        if (grade !== 'none') where.grade = grade;
-        if (profession !== 'none') where.profession = profession;
-
-        const Assignments = await this.assignmentRepository.find({ where }).catch((error) => {
-            this.logger.error(`Error fetching Assignments with filters: ${category}, ${grade}, ${profession} by token ${JSON.stringify(req.token)}`, error);
-            throw new HttpException({ message: 'Error fetching Assignments with filters!', error: error.message }, HttpStatus.INTERNAL_SERVER_ERROR);
-        });
+        const Assignments = await this.assignmentRepository
+            .find({
+                where: { ...parameters },
+                relations: {
+                    categories: true,
+                    professions: true,
+                    grades: true,
+                },
+            })
+            .catch((error) => {
+                this.logger.error(`Error fetching Assignments with filters: ${category}, ${grade}, ${profession} by token ${JSON.stringify(req.token)}`, error);
+                throw new HttpException(
+                    {
+                        message: 'Error fetching Assignments with filters!',
+                        error: error.message,
+                    },
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                );
+            });
 
         if (Assignments.length === 0) {
             this.logger.verbose(`No Assignments found matching the filters ${category}, ${grade}, ${profession} by token ${JSON.stringify(req.token)}`);
