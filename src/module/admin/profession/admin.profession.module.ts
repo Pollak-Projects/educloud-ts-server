@@ -9,4 +9,4 @@ import { Profession } from 'src/module/profession/profession.entity';
     controllers: [AdminProfessionController],
     providers: [AdminProfessionService],
 })
-export class AdminUserModule {}
+export class AdminProfessionModule {}

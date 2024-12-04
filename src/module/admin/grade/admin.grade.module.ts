@@ -9,4 +9,4 @@ import { Grade } from 'src/module/grade/grade.entity';
     controllers: [AdminGradeController],
     providers: [AdminGradeService],
 })
-export class AdminUserModule {}
+export class AdminGradeModule {}

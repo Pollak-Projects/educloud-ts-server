@@ -9,6 +9,9 @@ import { RouterModule } from '@nestjs/core';
 import { AdminAssignmentModule } from './module/admin/assignment/admin.assignment.module';
 import { AdminUserModule } from './module/admin/user/admin.user.module';
 import { AdminModuleModule } from './module/admin/module/admin.module.module';
+import { AdminGradeModule } from './module/admin/grade/admin.grade.module';
+import { AdminCategoryModule } from './module/admin/category/admin.category.module';
+import { AdminProfessionModule } from './module/admin/profession/admin.profession.module';
 
 @Module({
     imports: [
@@ -32,6 +35,18 @@ import { AdminModuleModule } from './module/admin/module/admin.module.module';
                     {
                         path: 'module',
                         module: AdminModuleModule,
+                    },
+                    {
+                        path: 'grade',
+                        module: AdminGradeModule,
+                    },
+                    {
+                        path: 'category',
+                        module: AdminCategoryModule,
+                    },
+                    {
+                        path: 'profession',
+                        module: AdminProfessionModule,
                     },
                 ],
             },
