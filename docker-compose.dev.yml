@@ -15,20 +15,20 @@ services:
     networks:
       - educloud
 
-  backend:
-    container_name: educloud-backend
-    build:
-      dockerfile: Dockerfile
-    restart: always
-    ports:
-      - "3300:3300"
-    depends_on:
-      - educloud-postgres
-    networks:
-      - educloud
-    environment:
-      PORT: 3300
-      DATABASE_URL: "postgresql://educloud:educloud@educloud-postgres:5432/educloud?schema=public"
+#  backend:
+#    container_name: educloud-backend
+#    build:
+#      dockerfile: Dockerfile
+#    restart: always
+#    ports:
+#      - "3300:3300"
+#    depends_on:
+#      - educloud-postgres
+#    networks:
+#      - educloud
+#    environment:
+#      PORT: 3300
+#      DATABASE_URL: "postgresql://educloud:educloud@educloud-postgres:5432/educloud?schema=public"
 
 networks:
   educloud:
