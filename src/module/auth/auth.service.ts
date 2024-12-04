@@ -90,6 +90,7 @@ export class AuthService {
             .save({
                 username: registerDto.username,
                 hashedPwd,
+                displayName: registerDto.username,
             })
             .catch((e) => {
                 this.logger.error(`Failed to register user ${JSON.stringify(registerDto)}`, e);
@@ -107,7 +108,7 @@ export class AuthService {
 
         const jwt = await this.jwtService.signAsync(payload);
 
-        response.cookie('access_token', jwt, { httpOnly: true });
+        response.cookie('access_token', jwt, { httpOnly: false });
 
         this.logger.verbose(`User ${JSON.stringify(registerDto)} registered and got JWT ${JSON.stringify(payload)}`);
         this.logger.verbose(`User ${JSON.stringify(registerDto)} registered`);
