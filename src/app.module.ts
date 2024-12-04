@@ -54,11 +54,11 @@ import { AssignmentModule } from './module/assignment/assignment.module';
             },
             {
                 path: 'module',
-                module: ModuleModule
+                module: ModuleModule,
             },
             {
                 path: 'assignment',
-                module: AssignmentModule
+                module: AssignmentModule,
             },
         ]),
     ],

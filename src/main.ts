@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
+import * as session from 'express-session';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule, {
@@ -25,4 +26,5 @@ async function bootstrap() {
     const logger = new Logger('Main');
     logger.log(`Server started on port ${process.env.PORT ?? 3300}`);
 }
+
 bootstrap();
