@@ -17,27 +17,27 @@ export class AdminUserController {
     constructor(private readonly appService: AdminUserService) {}
 
     @Get('get-all')
-    getAllUsers(): string {
+    async getAllUsers(): Promise<string> {
         return this.appService.getAllUsers();
     }
 
     @Get('get-by-id')
-    GetUserById(@Query('id') id: number, @Req() req: RequestUser): string {
+    async GetUserById(@Query('id') id: number, @Req() req: RequestUser): Promise<string> {
         return this.appService.GetUserById(id, req);
     }
 
     @Post('create')
-    createUser(@Body() userBody: UserDto, @Req() req: RequestUser): string {
+    async createUser(@Body() userBody: UserDto, @Req() req: RequestUser): Promise<string> {
         return this.appService.createUser(userBody, req);
     }
 
     @Put('update-by-id')
-    updateUserById(@Query('id') id: number, @Body() userBody: UserDto, @Req() req: RequestUser): string {
+    async updateUserById(@Query('id') id: number, @Body() userBody: UserDto, @Req() req: RequestUser): Promise<string> {
         return this.appService.updateUserById(id, userBody, req);
     }
 
     @Delete('delete-by-id')
-    deleteUserById(@Query('id') id: number, @Req() req: RequestUser): string {
+    async deleteUserById(@Query('id') id: number, @Req() req: RequestUser): Promise<string> {
         return this.appService.deleteUserById(id, req);
     }
 }
